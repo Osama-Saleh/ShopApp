@@ -12,14 +12,20 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getHomeData()..getCategoriesData(),
+      create: (context) => HomeCubit()
+        ..getHomeData()
+        ..getCategoriesData()..getFavoritesData()..getUserSettingData(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) => {},
         builder: (context, state) {
           var myCubit = HomeCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: Text("Souq"),
+              title: Text(
+                "Souq",
+                style: TextStyle(fontSize: 30),
+              ),
+              backgroundColor: Color.fromRGBO(46, 133, 190, 1),
               // ignore: prefer_const_literals_to_create_immutables
               actions: [
                 IconButton(
@@ -29,7 +35,10 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => SearchScreen()));
                     },
-                    icon: Icon(Icons.search))
+                    icon: Icon(
+                      Icons.search,
+                      size: 35,
+                    ))
               ],
             ),
             body: myCubit.screenButtomBar[myCubit.currentIndex],

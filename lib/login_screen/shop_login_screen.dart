@@ -9,7 +9,7 @@ import 'package:shoping_app/login_screen/cash_helper/shared_preferences.dart';
 import 'package:shoping_app/shop_login_screen/cubit/shop_login_cubit.dart';
 import 'package:shoping_app/shop_login_screen/cubit/shop_login_state.dart';
 import 'package:shoping_app/screens/home_screen/home_screen.dart';
-import 'package:shoping_app/screens/register_screen.dart';
+import 'package:shoping_app/screens/register_screen/register_screen.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({super.key});

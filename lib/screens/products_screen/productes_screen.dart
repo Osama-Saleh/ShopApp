@@ -5,6 +5,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoping_app/Models/categories_model.dart';
+import 'package:shoping_app/Models/change_favorites_model.dart';
 import 'package:shoping_app/Models/home_model.dart';
 import 'package:shoping_app/screens/home_screen/home_cubit.dart';
 import 'package:shoping_app/screens/home_screen/home_states.dart';
@@ -19,11 +20,13 @@ class ProductesScreen extends StatelessWidget {
       builder: (context, state) {
         return ConditionalBuilder(
           condition: HomeCubit.get(context).homemodel != null &&
-              HomeCubit.get(context).categoriesModel != null,
+              HomeCubit.get(context).categoriesModel != null ,
           builder: (context) => productBuilder(
-              context,
-              HomeCubit.get(context).homemodel!,
-              HomeCubit.get(context).categoriesModel!),
+            context,
+            HomeCubit.get(context).homemodel!,
+            HomeCubit.get(context).categoriesModel!,
+            
+          ),
           fallback: ((context) => Center(
                   child: CircularProgressIndicator(
                 color: Colors.red,
@@ -35,7 +38,8 @@ class ProductesScreen extends StatelessWidget {
 }
 
 PageController pageController = PageController();
-Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
+Widget productBuilder(context, HomeModel model, CategoriesModel categmodel,
+   ) {
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +79,6 @@ Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
             ),
             Container(
               height: 130,
-              // width: 100,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => Stack(
@@ -84,7 +87,6 @@ Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
                     Image(
                       image:
                           NetworkImage("${categmodel.data.data[index].image}"),
-                      // height: 130,
                       width: 130,
                     ),
                     Container(
@@ -120,7 +122,7 @@ Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
               crossAxisCount: 2,
               crossAxisSpacing: 1,
               mainAxisSpacing: 1,
-              childAspectRatio: .64,
+              childAspectRatio: .55,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: List.generate(
@@ -168,7 +170,9 @@ Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
                                   style: TextStyle(
                                     color: Colors.blue,
                                   )),
-                              Spacer(),
+                              SizedBox(
+                                width: 20,
+                              ),
                               if (model.data.products[index].discount != 0)
                                 Text(
                                   "${model.data.products[index].oldPrice.toInt()}\$",
@@ -176,6 +180,20 @@ Widget productBuilder(context, HomeModel model, CategoriesModel categmodel) {
                                       color: Color.fromARGB(255, 102, 100, 100),
                                       decoration: TextDecoration.lineThrough),
                                 ),
+                              Spacer(),
+                              IconButton(
+                                onPressed: () {
+                                    HomeCubit.get(context).changeFavorites(
+                                        model.data.products[index].id);
+                                },
+                                icon: HomeCubit.get(context).favorites![
+                                        model.data.products[index].id]!
+                                    ? Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                      )
+                                    : Icon(Icons.favorite_border),
+                              ),
                             ],
                           ),
                         ],

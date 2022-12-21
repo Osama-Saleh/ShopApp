@@ -5,7 +5,6 @@ import 'package:shoping_app/Network/dio_helper.dart';
 import 'package:shoping_app/Network/end_point.dart';
 import 'package:shoping_app/login_screen/cash_helper/shared_preferences.dart';
 import 'package:shoping_app/login_screen/shop_login_screen.dart';
-import 'package:shoping_app/screens/categories_screen/categories_cubit.dart';
 import 'package:shoping_app/screens/home_screen/home_cubit.dart';
 import 'package:shoping_app/screens/home_screen/home_screen.dart';
 import 'package:shoping_app/screens/onbording_screen/onbording_screen.dart';
@@ -18,7 +17,7 @@ void main() async {
   token = SharedPreference.getDatasSt(key: "token");
 
   // print("======================${onBording}");
-  // print("======================${token}");
+  print("======================${token}");
 
   Widget? widget;
 
@@ -47,8 +46,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>HomeCubit()..getHomeData(),
-
+      create: (context) => HomeCubit()
+        ..getHomeData()
+        ..getFavoritesData(),
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
