@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoping_app/Network/end_point.dart';
+import 'package:shoping_app/login_screen/cash_helper/shared_preferences.dart';
 import 'package:shoping_app/screens/home_screen/home_cubit.dart';
 import 'package:shoping_app/screens/home_screen/home_states.dart';
-import 'package:shoping_app/screens/search/search.dart';
+import 'package:shoping_app/screens/search/search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -14,11 +16,15 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit()
         ..getHomeData()
-        ..getCategoriesData()..getFavoritesData()..getUserSettingData(),
+        ..getCategoriesData()
+        ..getFavoritesData()
+        ..getUserSettingData(),
+        // ..updateUserData(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) => {},
         builder: (context, state) {
           var myCubit = HomeCubit.get(context);
+          token = SharedPreference.getDatasSt(key: "token");
           return Scaffold(
             appBar: AppBar(
               title: Text(

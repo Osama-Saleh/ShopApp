@@ -102,8 +102,8 @@ class Product {
   });
 
   int id;
-  double price;
-  double oldPrice;
+  dynamic price;
+  dynamic oldPrice;
   int discount;
   String image;
   String name;
@@ -114,8 +114,8 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
-        price: json["price"].toDouble(),
-        oldPrice: json["old_price"].toDouble(),
+        price: json["price"],
+        oldPrice: json["old_price"],
         discount: json["discount"],
         image: json["image"],
         name: json["name"],

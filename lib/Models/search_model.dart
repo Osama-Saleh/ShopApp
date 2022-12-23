@@ -1,39 +1,37 @@
 // To parse this JSON data, do
 //
-//     final favoritesItemsModel = favoritesItemsModelFromJson(jsonString);
+//     final searchModel = searchModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-FavoritesItemsModel favoritesItemsModelFromJson(String str) =>
-    FavoritesItemsModel.fromJson(json.decode(str));
+SearchModel searchModelFromJson(String str) =>
+    SearchModel.fromJson(json.decode(str));
 
-String favoritesItemsModelToJson(FavoritesItemsModel data) =>
-    json.encode(data.toJson());
+// String searchModelToJson(SearchModel data) => json.encode(data.toJson());
 
-class FavoritesItemsModel {
-  FavoritesItemsModel({
+class SearchModel {
+  SearchModel({
     required this.status,
     required this.message,
     required this.data,
   });
 
   bool? status;
-  dynamic message;
-  Data data;
+  dynamic? message;
+  Data? data;
 
-  factory FavoritesItemsModel.fromJson(Map<String, dynamic> json) =>
-      FavoritesItemsModel(
+  factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "data": data.toJson(),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "status": status,
+  //       "message": message,
+  //       "data": data.toJson(),
+  //     };
 }
 
 class Data {
@@ -53,14 +51,14 @@ class Data {
   });
 
   int? currentPage;
-  List<Datum> data;
+  List<Datum>? data;
   String firstPageUrl;
   int? from;
   int? lastPage;
   String lastPageUrl;
   dynamic nextPageUrl;
   String path;
-  int? perPage;
+  int perPage;
   dynamic prevPageUrl;
   int? to;
   int? total;
@@ -80,44 +78,24 @@ class Data {
         total: json["total"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl,
-        "from": from,
-        "last_page": lastPage,
-        "last_page_url": lastPageUrl,
-        "next_page_url": nextPageUrl,
-        "path": path,
-        "per_page": perPage,
-        "prev_page_url": prevPageUrl,
-        "to": to,
-        "total": total,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "current_page": currentPage,
+  //       "data": List<dynamic>.from(data.map((x) => x.toJson())),
+  //       "first_page_url": firstPageUrl,
+  //       "from": from,
+  //       "last_page": lastPage,
+  //       "last_page_url": lastPageUrl,
+  //       "next_page_url": nextPageUrl,
+  //       "path": path,
+  //       "per_page": perPage,
+  //       "prev_page_url": prevPageUrl,
+  //       "to": to,
+  //       "total": total,
+  //     };
 }
 
 class Datum {
   Datum({
-    required this.id,
-    required this.product,
-  });
-
-  int? id;
-  Product product;
-
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        product: Product.fromJson(json["product"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "product": product.toJson(),
-      };
-}
-
-class Product {
-  Product({
     required this.id,
     required this.price,
     required this.oldPrice,
@@ -125,17 +103,23 @@ class Product {
     required this.image,
     required this.name,
     required this.description,
+    required this.images,
+    required this.inFavorites,
+    required this.inCart,
   });
 
   int? id;
-  dynamic price;
-  dynamic oldPrice;
+  dynamic? price;
+  dynamic? oldPrice;
   int? discount;
-  String image;
-  String name;
-  String description;
+  String? image;
+  String? name;
+  String? description;
+  List<String>? images;
+  bool inFavorites;
+  bool inCart;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         price: json["price"],
         oldPrice: json["old_price"],
@@ -143,15 +127,21 @@ class Product {
         image: json["image"],
         name: json["name"],
         description: json["description"],
+        images: List<String>.from(json["images"].map((x) => x)),
+        inFavorites: json["in_favorites"],
+        inCart: json["in_cart"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "price": price,
-        "old_price": oldPrice,
-        "discount": discount,
-        "image": image,
-        "name": name,
-        "description": description,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "id": id,
+  //       "price": price,
+  //       "old_price": oldPrice,
+  //       "discount": discount,
+  //       "image": image,
+  //       "name": name,
+  //       "description": description,
+  //       "images": List<dynamic>.from(images.map((x) => x)),
+  //       "in_favorites": inFavorites,
+  //       "in_cart": inCart,
+  //     };
 }

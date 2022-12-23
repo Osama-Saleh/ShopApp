@@ -33,4 +33,6 @@ class SharedPreference {
   static Future<bool?> removeData({@required key}) async {
     return await sharedPreference?.remove(key);
   }
+
+  
 }

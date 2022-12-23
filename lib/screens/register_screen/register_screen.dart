@@ -102,6 +102,7 @@ class RegisterScreen extends StatelessWidget {
                       );
 
                       print("EEEEEEEE${nameController.text}");
+                      print("EEEEEEEE${passwordController.text}");
                     }
                   },
                   decoration: InputDecoration(

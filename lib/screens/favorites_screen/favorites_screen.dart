@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +14,17 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        FavoritesItemsModel? favoritesItemsModel =
+            HomeCubit.get(context).favoritesItemsModel;
+
+        print("-*-*-*-*-*-*-*-**--*-*");
+        print("${favoritesItemsModel!.data.data.length}");
+      },
       builder: (context, state) {
         var Favo = HomeCubit.get(context).favoritesItemsModel;
         return ConditionalBuilder(
-          condition: state is! GetFavoriesLoadingState,
+          condition: state is! GetFavoriesLoadingState ,
           builder: (context) {
             return ListView.separated(
               scrollDirection: Axis.vertical,

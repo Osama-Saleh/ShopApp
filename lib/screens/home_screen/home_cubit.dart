@@ -11,6 +11,7 @@ import 'package:shoping_app/Models/favorites_items_model.dart';
 import 'package:shoping_app/Models/favorites_items_model.dart';
 import 'package:shoping_app/Models/home_model.dart';
 import 'package:shoping_app/Models/login_model.dart';
+import 'package:shoping_app/Models/search_model.dart';
 import 'package:shoping_app/Network/dio_helper.dart';
 import 'package:shoping_app/Network/end_point.dart';
 import 'package:shoping_app/login_screen/cash_helper/shared_preferences.dart';
@@ -41,7 +42,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   HomeModel? homemodel;
-  Map<int, bool>? favorites = {};
+  Map<dynamic, bool>? favorites = {};
 
   void getHomeData() {
     emit(HomeLoadingState());
@@ -55,7 +56,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
       emit(HomeSuccessState());
     }).catchError((Error) {
-      print("Error...${Error}");
+      print("getHome Error ${Error}");
       emit(HomeErrorState());
     });
   }
@@ -73,7 +74,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   ChangeFavoritesModel? favoritesModel;
-  void changeFavorites(int prodictId) {
+  void changeFavorites(dynamic prodictId) {
     favorites![prodictId] = !favorites![prodictId]!;
     emit(FavoritesSuccesState());
     // print(favorites![prodictId]);
@@ -102,6 +103,7 @@ class HomeCubit extends Cubit<HomeStates> {
             textColor: Colors.white,
             fontSize: 16.0);
         getFavoritesData();
+      emit(FavoritesSuccesState());
       }
 
       // print("========*===========");
@@ -123,10 +125,10 @@ class HomeCubit extends Cubit<HomeStates> {
     DioHelper.getData(url: FAVORITES, token: token).then((value) {
       favoritesItemsModel = FavoritesItemsModel.fromJson(value.data);
       // print(value.data);
-      // print("*******************************");
-      emit(FavoritesSuccesState());
+      print("***********getFavoritesData********************");
+      emit(GetFavoriesSuccesState());
     }).catchError((Error) {
-      print("Errorffff$Error");
+      print("getFavoritesError$Error");
       emit(GetFavoriesErrorState());
     });
   }
@@ -141,7 +143,7 @@ class HomeCubit extends Cubit<HomeStates> {
       print(value.data);
       print(userDatamodel!.data!.name);
       print("*******************************");
-      emit(GetUserDataSettingSuccesState(userDatamodel!));
+      emit(GetUserDataSettingSuccesState(userDatamodel));
     }).catchError((Error) {
       print("Errorssss$Error");
       emit(GetUserDataSettingErrorState());
@@ -189,6 +191,44 @@ class HomeCubit extends Cubit<HomeStates> {
     }).catchError((Error) {
       print("@#@#@#@rrrr${Error}");
       emit(RegisterErrorState());
+    });
+  }
+
+  void updateUserData({
+    @required String? name,
+    @required String? email,
+    @required String? phone,
+  }) {
+    emit(UpdataLoadingState());
+    DioHelper.putUpdateData(
+        url: UPDATE_PROFILE,
+        token: token,
+        data: {"name": name, "email": email, "phone": phone}).then((value) {
+      userDatamodel = LoginModel.fromMap(value.data);
+      print(registerdata!.data!.name);
+      print("Updated");
+      emit(UpdataSuccesState());
+      // emit(UpdataSuccesState(registerdata));
+    }).catchError((Error) {
+      print("Error Updata Data ${Error}");
+      emit(UpdataErrorState());
+    });
+  }
+
+  SearchModel? searchModel;
+  void searchData(
+    String searchText,
+  ) {
+    emit(SearchLoadingState());
+
+    DioHelper.postData(url: SEARCH, data: {"text": searchText}, token: token)
+        .then((value) {
+      searchModel = SearchModel.fromJson(value.data);
+      print("Success Search");
+      emit(SearchSuccesState());
+    }).catchError((Error) {
+      print("SearchError${Error}");
+      emit(SearchErrorState());
     });
   }
 }

@@ -31,7 +31,7 @@ class GetFavoriesErrorState extends HomeStates {}
 class GetUserDataSettingLoadingState extends HomeStates {}
 
 class GetUserDataSettingSuccesState extends HomeStates {
-  final LoginModel userSettingData;
+  final LoginModel? userSettingData;
 
   GetUserDataSettingSuccesState(this.userSettingData);
 }
@@ -43,3 +43,15 @@ class RegisterLoadingState extends HomeStates {}
 class RegisterSuccesState extends HomeStates {}
 
 class RegisterErrorState extends HomeStates {}
+
+class UpdataLoadingState extends HomeStates {}
+
+class UpdataSuccesState extends HomeStates {}
+
+class UpdataErrorState extends HomeStates {}
+
+class SearchLoadingState extends HomeStates {}
+
+class SearchSuccesState extends HomeStates {}
+
+class SearchErrorState extends HomeStates {}
